@@ -1,5 +1,4 @@
-@import url('./reset.css');
-/* Style */
+@import url('../reset/reset.css');
 
 nav {
     background-color: #fff;

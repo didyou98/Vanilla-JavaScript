@@ -71,4 +71,87 @@ const menu = [
     img: "./images/item-9.jpeg",
     desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
   },
+  {
+    id: 10,
+    title: "steak dinner",
+    category: "dinner",
+    price: 39.99,
+    img: "./images/item-10.jpeg",
+    desc: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga, tenetur.`,
+  },
 ];
+
+const sectionCenter = document.querySelector('.section-center');
+
+const container = document.querySelector(".btn-container");
+
+
+
+// load item
+window.addEventListener('DOMContentLoaded', () => {
+  displayMenuItem(menu);
+  displayMenuButtons();
+});
+
+function displayMenuItem(menuItems)
+{
+  let displayMenu = menuItems.map((item) => {
+    return `
+    <!-- single item -->
+        <article class="menu-item">
+          <img src="${item.img}" class="photo" alt="${item.title}">
+          <div class="item-info">
+            <header>
+              <h4>${item.title}</h4>
+              <h4 class="price">${item.price}</h4>
+            </header>
+            <p class="item-text">
+              ${item.desc}
+            </p>
+          </div>
+        </article>
+        <!-- end of single item -->
+    `;
+  });
+  displayMenu = displayMenu.join('');
+  sectionCenter.innerHTML = displayMenu;
+}
+
+function displayMenuButtons()
+{
+  
+  const categories = menu.reduce((values, item) => {
+    if(!values.includes(item.category))
+    {
+      values.push(item.category);
+    }
+    return values
+  }, ['all']);
+  const categoryBtns = categories.map((category) => {
+    return `<button class="filter-btn" type="button" data-id="${category}">${category}</button>`
+  }).join("");
+
+  container.innerHTML = categoryBtns;
+
+  // filter item
+  const filterBtn = container.querySelectorAll('.filter-btn');
+  filterBtn.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      const category = e.currentTarget.dataset.id;
+      const menuCategory = menu.filter((menuItem) => {
+        // console.log(menuItem.category);
+        if(menuItem.category === category)
+        return menuItem;
+      });
+  
+      if(category === 'all')
+      {
+        displayMenuItem(menu);
+      }
+      else
+      {
+        displayMenuItem(menuCategory);
+      }
+    })
+  })
+}
